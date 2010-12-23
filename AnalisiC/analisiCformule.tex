@@ -1,0 +1,64 @@
+\documentclass[a4paper,10pt,italian]{article}
+\textwidth 460pt
+\textheight 700pt
+\hoffset -60pt
+\voffset -80pt
+\usepackage[latin1]{inputenc}
+\usepackage{babel}
+\usepackage[dvips]{graphicx}
+\usepackage{textcomp}
+\usepackage{amsmath}
+
+\title{Formulario Analisi C}
+\author{bug report: mario.piccinelli@gmail.com}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+This work is licensed under the Creative Commons Attribution-Noncommercial-Share Alike 2.5 Italy License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/2.5/it/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+\section{Serie note}
+\begin{itemize}
+\item Serie geometrica
+$$ \sum_{n=0}^{\infty} q^n \quad = \quad \frac{1}{1-q} $$
+converge se $\mid q \mid < 1$
+\item Serie armonica generalizzata
+$$ \sum_{n=1}^{+\infty} \Bigr( \frac{1}{n} \Bigr) ^\alpha $$
+converge se $\alpha < 1$
+\item Serie
+$$ \sum_{n=2}^{+\infty} \frac{1}{n^\alpha \cdot (log \, n)^\beta} $$ 
+converge se $\alpha > 1, \forall \beta$ oppure $\alpha=1, \beta>1$
+\end{itemize}
+
+\section{Sviluppi di Taylor}
+\begin{align*}
+\frac{1}{1-x} \quad &= \quad \sum_{n=0}^{+\infty}x^n &\mbox{per }\mid x \mid < 1 \\
+e^x \quad &= \quad \sum_{n=0}^{+\infty}\frac{x^n}{n!} \\
+log(1+x) \quad &= \quad \sum_{n=1}^{+\infty}(-1)^{n+1}\cdot\frac{x^n}{n} &\mbox{per } -1<x\leq 1 \\
+sin(x) \quad &= \quad \sum_{n=0}^{+\infty}(-1)^n\cdot\frac{x^{2n+1}}{(2n+1)!} \\
+cos(x) \quad &= \quad \sum_{n=0}^{+\infty}(-1)^n\cdot\frac{x^{2n}}{(2n)!} \\
+sinh(x) \quad &= \quad \sum_{n=0}^{+\infty}\frac{x^{2n+1}}{(2n+1)!} \\
+cosh(x) \quad &= \quad \sum_{n=0}^{+\infty}\frac{x^{2n}}{(2n)!} \\
+arctan(x) \quad &= \quad \sum_{n=0}^{+\infty}(-1)^n\cdot\frac{x^{2n+1}}{2n+1} &\mbox{per }\mid x \mid \leq 1\\
+arctanh(x) \quad &= \quad \sum_{n=0}^{+\infty}\frac{x^{2n+1}}{2n+1} \\
+\end{align*}
+
+\newpage
+
+\section{Integrali impropri notevoli}
+\begin{align*}
+&\int_{0}^{1} \Bigr( \frac{1}{x} \Bigr) ^\alpha & \mbox{converge se } \alpha < 1 \\
+&\int_{1}^{+\infty} \Bigr( \frac{1}{x} \Bigr) ^\alpha & \mbox{converge se } \alpha > 1 \\
+&\int_{0}^{\frac{1}{2}} \frac{1}{x^\alpha \cdot \mid log\,x \mid ^\beta}\,dx & \mbox{converge se } \alpha < 1 \quad \forall \beta \\
+&& \mbox{oppure } \alpha = 1 \quad \beta > 1 \\
+&\int_{a>1}^{+\infty} \frac{1}{x^\alpha \cdot \mid log\,x \mid ^\beta}\,dx & \mbox{converge se } \alpha > 1 \quad \forall \beta \\
+&& \mbox{oppure } \alpha = 1 \quad \beta > 1 \\
+\end{align*}
+
+%\huge{CONTINUA}...
+
+
+%fine documento
+\end{document}

@@ -1,0 +1,569 @@
+\documentclass[a4paper,10pt,italian]{article}
+\textwidth 460pt
+\textheight 700pt
+\hoffset -60pt
+\voffset -80pt
+\usepackage[latin1]{inputenc}
+\usepackage{babel}
+\usepackage[dvips]{graphicx}
+\usepackage{textcomp}
+\usepackage{amsmath}
+
+\title{Analisi C for Dummies}
+\author{bug report: \emph{mario.piccinelli@gmail.com}}
+
+\begin{document}
+
+%pagina nuova, 2 colonne
+%\twocolumn
+
+\maketitle
+
+This work is licensed under the Creative Commons Attribution-Noncommercial-Share Alike 2.5 Italy License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/2.5/it/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+\tableofcontents
+\newpage
+
+\section{Serie numeriche}
+La serie \'e la generalizzazione della somma ad un numero infinito di addendi. A partire da una successione numerica
+$$ \{ a_n \}_{n \in N} \subseteq C \qquad N=\{0,1,2,...\} $$
+Si costruisce un'altra successione definita come:
+\begin{align*}
+S_0 &= a_0 \\
+S_1 &= a_0+a_1 \\
+... \\
+S_N &= S_{N-1} + a_n = \sum_{n=0}^{\infty}a_n
+\end{align*}
+$\{S_N\}_{n \in N}$ \'e detta \emph{serie numerica} di elementi $\{a_n\}_{n\in N}$
+\begin{itemize}
+\item La serie \emph{converge} se esiste $\lim_{n\rightarrow \infty}S_N \leq \infty$
+\item La serie \emph{diverge} se esiste $\lim_{n\rightarrow \infty}S_N = \infty$
+\item La serie \emph{oscilla/\'e indeterminata} se NON esiste $\lim_{n\rightarrow \infty} S_N$
+\end{itemize}
+
+\subsection{Th di linearit\'a}
+Suppongo di avere $\{a_n\}$, $\{b_n\}$ $\subset$ C, $c\in C$
+\begin{itemize}
+\item se $\sum_{n=0}^{\infty}a_n$ e $\sum_{n=0}^{\infty}b_n$ convergono, allora $\sum_{n=0}^{\infty}(a_n+b_n)$ converge a $(\sum_{n=0}^{\infty} a_n + \sum_{n=0}^{\infty} b_n) $
+\item se $\sum_{n=0}^{\infty}a_n$ converge allora $\sum_{n=0}^{\infty}c.a_n$ converge a $c.\sum_{n=0}^{\infty} a_n$
+\end{itemize}
+
+\subsection{Corollario al Th di linearit\'a}
+Se $\sum_{n=0}^{\infty}a_n$ converge, allora $\lim_{n\rightarrow \infty} a_n = 0$
+
+\subsection{Serie a termini reali non negativi}
+$a_n \in R \quad a_n \geq 0 \quad \forall n$ 
+$$ S_N = S_{N-1} + a_N \Rightarrow S_N - S_{N-1} = a_n \geq 0 \Rightarrow S_N \geq S_{N-1} \quad \forall N $$
+Quindi esiste sicuramente il limite, quindi la serie \emph{non pu\'o oscillare}.
+
+\subsection{Criterio del confronto}
+Ci sono due serie: $\sum_{n=0}^{\infty}a_n$ e $\sum_{n=0}^{\infty}b_n$ \quad $a_n\,e\,b_n \in R$, $a_n\geq 0$, $b_n\geq 0$ \\ \\
+Se $a_n \leq b_n \quad \forall n \geq m$ \\ \\
+Allora se $\sum_{n=0}^{\infty} b_n$ converge $\Rightarrow$ $\sum_{n=0}^{\infty}a_n$ converge. \\ \\
+Corollario: \\ \\
+Se $0 \leq a_n \leq b_n \quad \forall n \geq m$ \\ \\
+Allora se $\sum_{n=0}^{\infty} a_n$ diverge $\Rightarrow$ $\sum_{n=0}^{\infty}b_n$ diverge.
+
+\subsection{Criterio del confronto asintotico}
+Supponiamo $a_n \geq 0 \quad b_n \geq 0 \quad \forall n$ \\ \\
+supponiamo $\exists \quad \lim_{n \rightarrow \infty} \frac{a_n}{b_n} = L \quad \in [0, + \infty]$
+\begin{itemize}
+\item $L \in ]0,+\infty[ \quad \Rightarrow \quad$ le due serie hanno lo stesso carattere
+\item $L = 0 \quad \Rightarrow \quad$ se $\sum_{n=0}^{\infty}b_n$ converge allora $\sum_{n=0}^{\infty}a_n$ converge
+\item $L = +\infty \quad \Rightarrow \quad$ se $\sum_{n=0}^{\infty} a_n$ converge allora $\sum_{n=0}^{\infty} b_n$ converge
+\end{itemize}
+
+\subsection{Criterio del rapporto}
+Supponiamo $a_n > 0 \quad \forall n \in N$ \\ \\
+supponiamo $\exists \quad \lim_{n\rightarrow\infty} \frac{a_{n+1}}{a_n} = L \quad \in[0, +\infty]$
+\begin{itemize}
+\item se $L < 1$ la serie converge
+\item se $L > 1$ la serie diverge
+\item se $L = 1$ caso indeterminato
+\end{itemize}
+
+\subsection{Criterio della radice}
+Supponiamo $a_n > 0 \quad \forall n \in N$ \\ \\
+supponiamo $\exists \quad lim_{n\rightarrow\infty} \sqrt[n]{a_n} = L \quad \in[0, +\infty]$
+\begin{itemize}
+\item se $L < 1$ la serie converge
+\item se $L > 1$ la serie diverge
+\item se $L = 1$ caso indeterminato
+\end{itemize}
+
+\subsection{Nel caso complesso..}
+Se $\sum_{n=0}^{\infty}\mid a_n \mid$ converge allora converge anche $\sum_{n=0}^{\infty}a_n$ \\ \\ 
+Se $\sum_{n=0}^{\infty} \mid a_n \mid$ converge, si dice che $\sum_{n=0}^{\infty}a_n$ \emph{converge assolutamente}. \\ \\
+Se $\sum_{n=0}^{\infty}a_n$ converge ma $\sum_{n=0}^{\infty}\mid a_n \mid$ non converge, allora si dice \emph{convergenza semplice}. \\ \\
+La convergenza assoluta implica la convergenza ordinaria.
+
+\subsection{Criterio di Leibnitz}
+Se ho una serie a segni alterni $\sum_{n=0}^{\infty}(-1)^na_n \quad a_n \in R \quad a_n \geq 0$ \\ \\
+Se $\{ a_n \}$ \'e monotona non crescente infinitesima \\ \\
+Allora la serie di partenza \'e convergente. \\ \\
+E inoltre $\mid S-S_n \mid \quad = \quad \mid S - \sum_{k=0}^{\infty}(-1)^ka_k \mid \quad \leq \quad a_{n+1}$ 
+
+\section{Successioni di funzioni}
+$\{f_n\}_{n \in N} \quad f_n:I \rightarrow C \subseteq R \quad$ I intervallo limitato o illimitato
+
+\subsection{Convergenze}
+Convergenza puntuale:
+$$ \lim_{n\rightarrow\infty} f_n(x) = f(x) \quad \forall x \in I \quad \Leftrightarrow \quad \lim_{n\rightarrow\infty} \mid f_n(x) - f(x) \mid = 0 \quad \forall x \in I $$
+Convergenza uniforme:
+$$ \lim_{n\rightarrow\infty} \sup_{x\in I} \mid f_n(x) - f(x) \mid = 0 \quad \forall x \in I $$
+
+\subsection{Continuit\'a}
+$\{f_n\}_{n\in N}$ successione di funzioni $f_n : I \rightarrow C$ \\ \\
+$f_n$ continue $\forall n \in N$, $f_N \rightarrow f$ \emph{uniformemente} in I (dove $f:I\rightarrow C$) \\ \\
+Allora f \'e \emph{continua} in I
+
+\subsection{Integrazione}
+$f_n:[a,b]\rightarrow R$ integrabili $\forall n$ \\ \\
+$f_n \rightarrow f$ uniformemente in [a,b] \\ \\
+Allora:
+\begin{itemize}
+\item f integrabile in [a,b]
+\item $\lim_{n\rightarrow\infty} \int_{a}^{b} f_n(x)\,dx \quad = \quad \int_{a}^{b}f(x)\,dx$
+\end{itemize}
+
+\subsection{Derivazione}
+$f_n:[a,b]\rightarrow R$ derivabili $\forall n$ \\ \\
+$f_n \rightarrow f$ in [a,b] (solo puntualmente)\\ \\
+$f'_n \rightarrow g(x)$ uniformemente in [a,b] \\ \\
+Allora:
+\begin{itemize}
+\item f \'e derivabile
+\item $f_n \rightarrow f$ uniformemente in [a,b]
+\item $f'=g$
+\end{itemize}
+
+\newpage
+
+\section{Serie di Funzioni}
+$\{ f_n(x) \}_{n\in N} \quad f_n:I\rightarrow C$ 
+\begin{align*}
+S_0(x) &= f_0(x) \\
+S_1(x) &= f_0(x) + f_1(x) \\
+... \\
+S_n(x) &= S_{n-1}(x) + f_n(x) &\mbox{somma parziale o ridotta della serie}
+\end{align*}
+Fissato un determinato $x \in I$, si ha:
+\begin{itemize}
+\item $\{f_n(x)\}$ successione numerica
+\item $\{S_n(x)\}$ successione numerica $\sum_{n=0}^{\infty}f_n(x)$
+\end{itemize}
+
+\subsection{Convergenza puntuale}
+La serie converge, diverge o \'e indeterminata \\ \\
+se la serie (numerica) $\sum_{n=0}^{\infty}f_n(x)$ converge, diverge o \'e indeterminata $\forall x \in I$
+
+\subsection{Convergenza uniforme}
+La serie $\sum_{n=0}^{\infty}f_n(x)$ \'e convergente \emph{uniformemente} a $S(x)$ in I \\ \\
+se la successione $\{ S_k(x) \}$ converge \emph{uniformemente} a $S(x)$ in I, ovvero:
+$$ \lim_{k\rightarrow\infty} \sup_{x\in I} \mid S_k(x) - S(x) \mid 
+\quad = \quad \lim_{k\rightarrow\infty} \sup_{x\in I} \mid \sum_{n=0}^{k}f_n(x) - \sum_{n=0}^{\infty} f_n(x) \mid 
+\quad = \quad 0$$
+
+\subsection{Continuit\'a}
+Date $f_n:I\rightarrow C$ continue in I $\forall n \in N$ (ovvero $f_n \in C^0(I)$)\\ \\
+se la serie $\sum_{n=0}^{\infty} f_n(x)$ converge \emph{uniformemente} in I a $S(x)$ \\ \\
+allora $S(x)$ \'e continua in I (ovvero $S\in C^0(I)$) (condizione sufficiente, non necessaria)
+
+\subsection{Integrazione per serie}
+$f_n:[a,b]\rightarrow R$ integrabile $\forall n \in N$ \\ \\
+$\sum_{n=0}^{\infty}f_n(x)$ converge \emph{uniformemente} in [a,b] a $S(x)$ \\ \\
+Allora:
+\begin{itemize}
+\item S \'e integrabile in [a,b]
+\item $\int_{a}^{b}S(x)\,dx 
+\quad = \quad \int_{a}^{b}\sum_{n=0}^{\infty}f_n(x)\,dx 
+\quad = \quad \sum_{n=0}^{\infty} \int_{a}^{b} f_n(x)\,dx$
+\end{itemize}
+
+\subsection{Derivazione per serie}
+$f_n:[a,b]\rightarrow R$ derivabile $\forall n \in N$ \\ \\
+$\sum_{n=0}^{\infty}f_n(x)$ converge \emph{puntualmente} in I a $S(x)$ \\ \\
+$\sum_{n=0}^{\infty}f'_n(x)$ converge \emph{uniformemente} in I a $g(x)$ \\ \\
+Allora:
+\begin{itemize}
+\item S \'e derivabile
+\item $\sum_{n=0}^{\infty} f_n$ converge \emph{uniformemente} a S in I
+\item $S'(x) = g(x) = \sum_{n=0}^{\infty}f'n(x)$
+\end{itemize}
+
+\subsection{Convergenza Totale}
+La serie $\sum_{n=0}^{\infty} f_n:I\rightarrow C $ ($\quad I\in C$ intervallo) converge \emph{totalmente} in I se: \\ \\
+$\exists \quad \{a_n\}$, con $a_n \in R$, $a_n \geq 0$ tale che:
+\begin{itemize}
+\item $\mid f_n(x) \mid \leq a_n$, $\forall x \in I$, $\forall n \in N$
+\item $\sum_{n=0}^{\infty} a_n$ \'e convergente
+\end{itemize}
+
+\subsection{Teorema di Weierstrass}
+Se la serie $\sum_{n=0}^{\infty}f_n(x)$ converge totalmente in I \\ \\
+allora converge uniformemente in I (non sempre vale il viceversa).
+
+\section{Serie di Potenze}
+$$\sum_{n=0}^{\infty} a_n(x-x_0)^n \quad = \quad a_0 + a_1(x-x_0) + a_2(x-x_0)^2 + a_3(x-x_0)^3 + ...$$
+$x_0$ \'e il \emph{centro della serie}. \'E sempre possibile ricondurre il centro della serie a 0 con un cambio di variabili.
+
+\subsection{Raggio di Convergenza}
+Supponiamo che la serie converga in $x_0 \in C$, con $x_0 \neq 0$. \\ \\
+Allora la serie converge \emph{assolutamente} $\forall x \in C$ tali che $\mid x \mid < \mid x_o \mid$ \\ \\
+Si definisce \emph{Raggio di Convergenza} della serie:
+$$ R = \sup\{ \mid x \mid \mbox{ con }  x\in C \mbox{ tale che: } \sum_{n=0}^{\infty} a_nx^n \mbox{ converge} \} $$
+In tal caso:
+\begin{itemize}
+\item $\forall r$, tale che $0<r<R$, la serie \emph{converge uniformemente} nella palla chiusa centrata in 0 con raggio R.
+\item la somma della serie \'e una \emph{funzione continua} in $B_R(o)$
+\end{itemize} 
+Supponiamo che $\exists \quad \lim_{n\rightarrow\infty}\sqrt[n]{\mid a_n \mid} = l$, con $l \in [0, +\infty]$ \\ \\
+Allora:
+$$ R := \Bigg\{
+\begin{array}{ll}
+\frac{1}{l} & \mbox{ se } l\in ]0, +\infty[ \\
++\infty &\mbox{ se } l=0 \\
+0 &\mbox{ se }l=+\infty
+\end{array}
+$$
+R \'e il \emph{raggio di convergenza} della serie. \\ \\
+Vale anche la formula $\quad \lim_{n\rightarrow\infty} \frac{\mid a_{n+1} \mid}{\mid a_n \mid} = l$ (se esiste il limite, ovviamente) \\ \\
+Osservazione: se $\exists$ il limite del rapporto $\Rightarrow$ $\exists$ il limite della radice, quindi se non esiste il limite 
+della radice \'e inutile cercare il limite del rapporto.
+
+\subsection{Integrazione per serie di potenze}
+Dunque, ho $\sum_{n=0}^{\infty}a_nx^n$, e so che converge uniformemente in $\overline{B_r(0)}$ con $0<r<R$. \\ \\
+So anche che $\forall n$ succede che $x\rightarrow a_nx^n$ \'e una funzione continua $\Rightarrow$ integrabile. \\ \\
+Quindi, suppondendo di avere $-r<a<b<r$:
+$$\int_{a}^{b} \Bigr( \sum_{n=0}^{\infty} a_nx^n \Bigr)\,dx = \sum_{n=0}^{\infty} \Bigr( \int_{a}^{b} a_nx^n \, dx \Bigr) 
+= ... = \sum_{n=0}^{\infty} a_n\frac{b^{n+1}-a^{n+1}}{n+1}$$
+Prendo un $x$ tale che $\mid x \mid < R$, quindi, se per esempio $x>0$, prendo $a=0$, $b=x$ (altrimenti viceversa).
+$$ \int_{0}^{x} \Bigr( \sum_{n=0}^{\infty} a_nt^n \, dt \Bigr) 
+= \sum_{n=0}^{\infty}a_n\int_{0}^{x}t^n\,dt
+= ... = \sum_{n=0}^{\infty} \frac{a_n}{n+1}x^{n+1}
+= x\sum_{n=0}^{\infty}b_nx^n $$
+Quindi integrando una serie di potenze ottengo un'altra serie di potenze. \\ \\
+La serie cos\'i ottenuta ha lo stesso raggio di convergenza della serie di partenza.
+$$ \lim_{n\rightarrow \infty} \sqrt[n]{\mid b_n \mid} = \lim_{n\rightarrow \infty} \sqrt[n]{\mid \frac{a_n}{n+1} \mid} 
+= \frac{\lim_n \sqrt[n]{\mid a_n \mid}}{\lim_n \sqrt[n]{n+1}} = \frac{1}{R} $$
+
+\subsection{Derivazione per serie di potenze}
+Dunque, ho $\sum_{n=0}^{\infty}a_nx^n$, e so che converge uniformemente in $\overline{B_r(0)}$ con $0<r<R$. \\ \\
+So anche che $\forall n$ succede che $x\rightarrow a_nx^n$ \'e una funzione continua $\Rightarrow$ derivabile. \\ \\
+Se ho la convergenza uniforme di $\sum_{n=0}^{\infty}na_nx^{n-1}$ allora:
+$$ \sum_{n=0}^{\infty} a_nx^n \quad \mbox{\'e derivabile e} \quad \Bigr( \sum_{n=0}^{\infty} a_nx^n \Bigr)' = \sum_{n=0}^{\infty} na_nx^{n-1} $$
+La convergenza uniforme si vede semplicemente:
+$$ \sum_{n=0}^{\infty} na_nx^{n-1} = x^{-1}\sum_{n=0}^{\infty} na_nx^n $$
+Inoltre, la derivata di una serie ha lo stesso raggio di convergenza della serie di partenza:
+$$ \lim_{x \rightarrow \infty} \sqrt[n]{\mid na_n \mid} = \lim_{n\rightarrow\infty} \sqrt[n]{n}\sqrt[n]{\mid a_n \mid} = \frac{1}{R}$$
+Ripetendo quanto visto prima, si pu\'o facilmente vedere che una serie di potenze ammette infinite derivate in $\mid x \mid < R$.
+
+\subsection{Taylor}
+Dunque, si \'e detto che una serie di potenze \'e derivabile $\infty$ volte in $\mid x \mid < R$. Finora abbiamo sempre visto
+come partendo da una successione $\{f_n\}$ si arrivi a convergere a una certa f. Supponiamo ora di voler fare il contrario:
+a partire da una f vogliamo ricavare la successione che coverga ad essa. Il procedimento \'e il seguente:
+\begin{align*}
+f(x) &= a_0 + a_1(x-x_0) + a_2(x-x_0)^2 + a_3(x-x_0)^3 + ... \\
+&\Rightarrow f(x_0) = a_0 \\
+f'(x) &= a_1 + 2a_2(x-x_0) + 3a_3(x-x_0)^2 + ... \\
+&\Rightarrow f'(x_0) = a_1 \\
+f''(x) &= 2a_2 + 3\cdot 2a_3(x-x_0) + ... \\
+&\Rightarrow f''(x_0) = a_2 \\
+f'''(x) &= 3\cdot 2a_3(x-x_0) + ... \\
+&\Rightarrow f'''(x_0) = 3\cdot 2a_3 \\
+... \\
+&\Longrightarrow f^{(n)}(x_0) = n!\cdot a_n
+\end{align*}
+Di conseguenza, 
+$$ f(x) \quad =\quad  \sum_{n=0}^{\infty} a_n(x-x_0)^n \quad = \quad \sum_{n=0}^{\infty} \frac{f^{(n)}(x_0)}{n!} (x-x_0)^n \quad \mbox{Serie di Taylor}$$ \\  
+O, come afferma il \emph{Teorema di Taylor}
+\begin{align*}
+f(x) &= \sum_{n=0}^{m}\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n &P_m(x) \mbox{ Polinomio di Taylor} \\
+&+ \frac{f^{(m+1)}(\xi)}{(m+1)!}(x-x_0)^{m+1} &R_m(x) \mbox{ Resto di Lagrange}
+\end{align*}
+Con $\xi$ compreso tra $x$ e $0$. \\ \\ \\
+$f \in C^\infty(I)$ di dice \emph{sviluppabile in serie di potenze} in I se:
+\begin{itemize}
+\item $\forall x_0 \in I \quad \exists r>0 \quad : \quad ]x_0-r, x_0+r[ \subset I$ 
+\item $\exists \quad \{a_n\} \subset R \quad : \quad f(x)=\sum_{n=0}^{\infty}a_n(x-x_0)^n \quad \forall x \mbox{ tale che } \mid x-x_0 \mid < r$
+\end{itemize}
+Se f \'e sviluppabile in serie di potenze (attorno a $x_0$) allora la serie \'e la serie di Taylor (centrata in $x_0$) \\ \\
+$f \in C^\infty(I)$ di dice \emph{sviluppabile in serie di Taylor} in I se:
+\begin{itemize} 
+\item $\forall x_0 \in I \quad \exists r>0 \quad : \quad ]x_0-r, x_0+r[ \subset I$ 
+\item $f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n \quad \forall x \mbox{ tale che } \mid x-x_0 \mid < r$
+\end{itemize}
+Per finire, f si dice \emph{analitica} in I se \'e sviluppabile in serie di potenze.\\
+f analitica $\Rightarrow$ $f \in C^0$ e la serie \'e la serie di Taylor \\ \\ 
+$f \in C^0$ \'e sviluppabile in serie di Taylor se $\exists C,M > 0$ tale che:
+$$ \mid f^{(n)}(x) \mid \leq C \cdot M^n \quad \forall x \in I, \quad \forall n $$
+
+\subsection{Teorema di Weiestrass}
+$ f:[a,b] \rightarrow \Re $ continua. \\ \\
+allora $\exists \{ P_m(x)\}$ di polinomi \emph{convergente uniformemente} a f in [a,b], ovvero:
+$$ \lim_{n\rightarrow \infty} \sup_{x\in [a,b]} \mid f(x) - P_m(x) \mid = 0 $$
+Queso ci porta a concludere che: se $f\in C^\infty$, allora si pu\'o esprimere come un polinomio di Taylor ad
+essa convergente uniformemente. Ma se anche la serie \'e solo $C^0$, comunque esiste un polinomio che converga
+ad essa uniformemente. Ma se la serie non \'e nemmeno continua?
+
+\section{Fourier (agitarsi prima dell'uso)}
+Serie trigonometrica:
+$$ \sum_{n=0}^{\infty}\Bigr[ \alpha _n \cos(nx) + \beta _n \sin(nx)  \Bigr] $$
+Ha periodo $T = 2\pi$ e media nulla.
+
+\subsection{Teorema di Dirichlet}
+Data la serie trigonometrica $ \sum_{k=0}^{\infty}\Bigr[ \alpha _k \cos(kx) + \beta _k \sin(kx)  \Bigr]$, se:
+\begin{itemize}
+\item se $\{\alpha _k\}$ e $\{\beta _k\}$ sono serie a termini positivi e
+\item se $\{\alpha _k\}$ e $\{\beta _k\}$ sono decrescenti e infinitesime
+\end{itemize}
+Allora la serie converge puntualmente $\forall x$ eccetto al pi\'u $x=0$, $x=\pm 2 \pi$, $x= \pm 4 \pi$, ...
+
+\subsection{Serie di Fourier}
+Si dimostra che il \emph{Polinomio di Fourier}
+$$ P_n(x) = \frac{a_0}{2} + \sum_{k=1}^{\infty} \Bigr[ a_k\cos(kx) + b_k \sin(kx) \Bigr] $$
+Con i coefficienti:
+$$ a_0 = \frac{1}{\pi}\int_{0}^{2\pi} f(x)\,dx 
+\qquad a_k = \frac{1}{\pi}\int_{0}^{2\pi} f(x) \cdot \cos(kx)\,dx 
+\qquad b_k = \frac{1}{\pi}\int_{0}^{2\pi} f(x) \cdot \sin(kx)\,dx   $$
+\'e la migliore approssimazione ai \emph{minimi quadrati} della funzione f(x), quando f(x) \'e $2\pi$-periodica e integrabile secondo Riemann sul periodo:
+$$ \lim_{n \rightarrow \infty} \int_{0}^{2\pi} \mid f(x) - P_n(x) \mid ^2 \,dx = 0 $$
+
+\subsection{Uguaglianza di Parseval}
+$$ \frac{1}{\pi} \int_{0}^{2\pi} \mid f(x) \mid ^2\,dx = \frac{a_0^2}{2}+\sum_{k=1}^{\infty} (a_k^2+b_k^2) $$
+
+\subsection{Convergenza puntuale}
+La serie di Fuorier rappresenta la migliore approssimazione ai minimi quadrati, ma non si pu\'o comunque parlare di convergenza. \\ \\
+Per\'o se f \'e $C^0$ a tratti (ovvero se \'e continua sul periodo eccetto al pi\'u un numero finito di punti di discontinuit\'a 
+di cui per\'o esistono finite entrambe le derivate destra e sinistra) \\ \\
+allora per ogni $x_0$ fissato, la serie di Fourier di f converge in $x_0$ a $S(x_0)$ e:
+$$ S(x_0) = \frac{f_{x_0^+} + f_{x_0^-}}{2}$$
+se f \'e continua in $x_0$ allora $S(x_0) = f(x_0)$
+
+\subsection{Teorema di Dirichlet (un altro!?)}
+$f:\Re \rightarrow \Re$ T-periodica \\ \\
+se f \'e \emph{monotona a tratti} in [0,T], ovvero \'e decomponibile in un numero finito di sottointervalli sui quali la funzione \'e monotona \\ \\
+allora la serie di Fuorier converge a 
+$$ S(x_0) = \frac{f_{x_0^+} + f_{x_0^-}}{2}$$
+se f \'e continua in $x_0$ allora $S(x_0) = f(x_0)$ \\ \\
+(Praticamente la monotonia a tratti sopperisce alla presenza di infiniti punti di discontinuit\'a o limiti infiniti)
+
+\subsection{Derivabilit\'a della serie di Fuorier}
+$f:\Re \rightarrow \Re$ T-periodica, derivabile eccetto al pi\'u in un numero finito di punti in [0,T] \\ \\
+con f' derivabile su [0,T] (secondo Riemann) \\ \\
+Allora la serie di Fourier di f' \'e ottenibile derivando termine a termine la serie di Fourier di f. \\ \\
+Altro teorema: \\ \\
+$f:[0,T]\rightarrow \Re$ continua con $f(0)=f(T)$ (senza salti) \\ \\
+f derivabile con $f'$ di classe $C^1$ a tratti (continua e derivabile eccetto al pi\'u un numero finito di punti $x_i$,
+nei quali esiste comunque $f''_\pm (x_i)$) \\ \\
+Allora $f'$ \'e ottenibile derivando la serie di Fourier di f termine a termine in ogni intervallo chiuso $[a,b]\subset ]0,T[$ 
+$$ f'(x) = \sum_{n=0}^{\infty}(n\cdot b_n\cdot \cos(nx) + n\cdot a_n \sin(nx)) \quad \forall x \in [a,b]$$
+Se inoltre $f'(0)=f'(T)$ allora la formula sopra vale in [0,T] (anche per gli estremi)
+
+\subsection{Convergenza Uniforme}
+Nelle condizioni sopra elencate, ovvero:\\ \\
+$f:\Re \rightarrow \Re$ T-periodica, derivabile eccetto al pi\'u in un numero finito di punti in [0,T] \\ \\
+con f' derivabile su [0,T] (secondo Riemann) \\ \\
+allora la serie di Fourier di f \emph{converge uniformemente} in $\Re$.
+
+\section{Integrali Indefiniti}
+Conosciamo l'integrale di Riemann per $f:[a,b]\rightarrow \Re$ limitata.\\
+Vogliamo estendere a questi casi:
+\begin{itemize}
+\item Intervallo illimitato
+\item Funzione non limitata nell'intervallo
+\end{itemize}
+
+\subsection{Definizione: localmente integrabile}
+$f:[a,b[ \rightarrow \Re \quad b\in ]a, +\infty]$ \\ \\
+f \'e \emph{localmente integrabile} in [a,b[ se \\ \\
+$\forall c \in ]a,b[$ f \'e integrabile (secondo Riemann) su [a,c]
+
+\subsection{Definizione: integrabile in senso improprio}
+$f:[a,b[$ \'e integrabile \emph{in senso improprio} su $[a,b[$ se: 
+\begin{itemize}
+\item f \'e localmente integrabile su [a,b[
+\item $\exists \lim_{c\rightarrow b^-} \int_{a}^{c}f(x)\,dx \quad < +\infty$
+\end{itemize}
+
+\subsection{Funzioni $\geq$ 0}
+$f:[1, +\infty[\rightarrow \Re$, $f(x)\geq 0$, f localmente integrabile. \\ \\
+Allora $\int_{1}^{\infty}f(x)\,dx$ non oscilla, \\ \\
+ovvero $\exists \quad \lim_{x \rightarrow \infty}f(t)\,dt \quad =\quad \sup_{x\in [1, \infty[} \int_{1}^{\infty} f(x)\,dx \quad\leq \quad +\infty$
+
+\subsection{Criterio del Confronto}
+$f,g:[1, +\infty[\rightarrow \Re$, localmente integrabili, $0 \leq f(x)\leq g(x) \quad \forall x$ \\ \\
+allora se g \'e integrabile in senso improprio anche f lo \'e.
+
+\subsection{Criterio del Confronto Asintotico}
+$f,g:[1, +\infty[\rightarrow \Re$, localmente integrabili, $f(x) \geq 0\quad g(x) \geq 0 \quad \forall x$ \\ \\
+suppongo che esista:
+$$\lim_{x \rightarrow \infty} \frac{f(x)}{g(x)} = L \quad L\in[0, +\infty]  $$
+Allora:
+\begin{itemize}
+\item $L \in ]0, +\infty[ \qquad \Rightarrow \qquad $ f \'e integrabile in senso improprio $\Leftrightarrow$ lo \'e anche g
+\item $L = 0 \qquad \Rightarrow \qquad$ se g \'e integrabile in senso improprio $\Rightarrow$ anche f lo \'e.
+\item $L = +\infty \qquad \Rightarrow \qquad$ se f \'e integrabile in senso improprio $\Rightarrow$ anche g lo \'e.
+\end{itemize}
+
+\subsection{Criterio di McLaurin}
+$f:[1,+\infty[ \rightarrow \Re$, localmente integrabile, \emph{monotona}. Allora:
+$$ \int_{1}^{\infty} f(x)\,dx \quad \mbox{converge} \quad \Longleftrightarrow\quad \sum_{n=1}^{\infty}f(x) \quad \mbox{converge} $$
+
+\subsection{In valore assoluto...}
+$f:[1,+\infty[ \rightarrow \Re$, localmente integrabile. \\ \\
+Se $\int_{1}^{\infty}\mid f(x)\mid \,dx$ converge (ovviamente $\mid f \mid$ integrabile in senso improprio) \\ \\
+allora $\int_{1}^{\infty}f(x)$ converge e
+$$ \mid \int_{1}^{\infty} f(x)\,dx \mid \quad \leq \quad \int_{1}^{\infty} \mid f(x) \mid \,dx $$
+in tal caso si dice che f(x) \'e \emph{assolutamente integrabile}
+
+\section{Trasformata di Laplace}
+$f:\Re \rightarrow \Re$ (ma anche C), $f(x)=0 \forall x < 0$
+$$ L[f](s) \quad =\quad \int_{\Re} f(x) e^{-sx}\,dx \quad =\quad \int_{-\infty}^{+\infty}f(x)e^{-sx}\,dx $$
+
+\subsection{Definizione}
+Allora la Trasformata di Laplace \'e \emph{ben definita} $\forall s \in \Re$ con $\Re\{s\} > \alpha$ se:
+$$\mid f(x) \mid \leq M\cdot e^{\alpha x} \quad \forall x \quad M,\alpha \in \Re \quad M>0$$ 
+e inoltre $$\lim_{\Re\{s\}\rightarrow \infty}L[f](s)=0$$ \\ \\
+Altra possibilit\'a: \\ \\
+suppongo $\exists \quad \lambda \in \Re$ tale che $ e^{-\lambda x}f(x) $ sia assolutamente integrabile. \\ \\
+Allora L[f](s) \'e definita per $\Re\{s\} \geq \lambda$
+
+\subsection{Linearit\'a}
+$$ L[\lambda f + \mu g] \quad = \quad \lambda L[f] + \mu L[g]$$
+
+\subsection{Formula del ritardo}
+$$ L[f(x-a)] = e^{-sa} L[f(x)]  $$
+
+\subsection{Derivazione}
+Suppongo $f \in C^1$ a tratti, con $f'$ trasformabile secondo Laplace in $\Re\{s\}>\alpha$ \\ \\
+allora f \'e trasformabile secondo Laplace per $\Re\{s\} > \max\{0,\alpha\}$, e vale:
+$$ L[f'](s) \quad = \quad s\cdot L[f](s) \quad - \quad f(0^+) $$
+Corollario:
+$$ \lim_{\Re\{s\}\rightarrow \infty} s\cdot L[f] = f(0)$$
+
+\subsection{Integrazione}
+$$ F(x) = \int_{0}^{x} f(t)\,dt \quad f\in C^0 \quad \Longrightarrow\quad L[F] = \frac{1}{s}F[f]$$
+
+\section{Trasformata di Fourier}
+$f:\Re \rightarrow \Re$
+$$ \hat{f}(\xi) = F[f](\xi) = \int_{-\infty}^{\infty}f(x)e^{-i\xi x}\,dx \qquad \xi \in \Re$$
+$\hat{f}:\Re \rightarrow C$ \'e definita \emph{Trasformata di Fourier}
+
+\subsection{Definizione}
+f assolutamente integrabile su $\Re$ \\ \\
+allora la trasformata di Fourier $\hat{f}$ \'e ben definita $\forall \xi \in \Re$ e: 
+\begin{itemize}
+\item $\hat{f}$ \'e una funzione limitata in $\Re$
+\item $\hat{f}$ \'e una funzione continua in $\Re$
+\item $	\lim_{\mid \xi \mid \rightarrow \infty} \hat{f} = 0$
+\end{itemize}
+
+\subsection{Linearit\'a}
+$$ F[\lambda f + \mu g] = \lambda F[f] + \mu F[g] $$
+
+\subsection{Formula del Ritardo}
+$$ F[f(ax-b)] = \frac{1}{\mid a \mid} \cdot e^{-i \xi \frac{b}{a}} \cdot F[f] \Bigr( \frac{\xi}{a} \Bigr)$$
+
+\subsection{Inversione della Trasformata}
+$u:\Re \rightarrow \Re$ limitata, $C^1$ a tratti, con $u$ e $\hat{u}$ assolutamente integrabili
+$$ F^{-1}[\hat{u}](x) \quad = \quad \frac{1}{2 \pi} \int_{\Re} \hat{u}(\xi)\cdot e^{i\xi x}\,d\xi \quad =\quad \frac{u(x^+)+u(x^-)}{2} $$
+se u \'e continua in x, allora succede che
+$$ F^{-1}[\hat{u}](x) \quad = \quad u(x)$$
+Nelle condizioni sopracitate, inoltre accade che
+$$ F^{-1}F[u](x) \quad = \quad u(x) $$
+$$ \Rightarrow F^{-1} \circ F = \mbox{identit\'a} $$
+
+\subsection{Corrispondenze tra trasformata e antitrasformata}
+\begin{align*}
+F:u \quad &\rightarrow \quad \hat{u}=F[u] \\
+F^{-1}:v \quad &\rightarrow \quad \check{v}=F^{-1}[v] 
+\end{align*}
+$$\Longrightarrow$$
+\begin{align*}
+u \quad &\leftrightarrow \quad \hat{u} \\
+x \quad &\leftrightarrow \quad \xi \\
+i \quad &\leftrightarrow \quad -i \\
+\end{align*}
+
+\subsection{Derivazione}
+$u$ e $u'$ assolutamente integrabili, $u'$ $C^1$ a tratti
+$$ F[u'](\xi) = i\cdot \xi \cdot \hat u $$
+
+\section{Equazioni Differenziali}
+$$ f(t, y, y', y'', y'', ..., y^{(n)}) = 0 $$
+t \'e una variabile indipendente \\
+$y = y(t)$ \'e un variabile dipendente (incognita) \\
+n: ordine dell'equazione \\ \\
+$y=y(t)$ derivabile almeno n volte \'e \emph{soluzione} se
+$$ f(t, y(t), y''(t), ..., y^{(n)}(t)) = 0 \qquad \forall t $$
+Per\'o se $y'(t) = g$ allora $y(t)=\int g(s)\,ds + C$. Quindi ho infinite soluzioni e per definirne una devo conoscere le condizioni iniziali.
+
+\subsection{Esistenza della soluzione}
+\begin{align*}
+f:\quad &A=]a,b[\times ]c,d[ \quad \rightarrow \quad \Re \\
+&(t,y) \quad \rightarrow \quad f(t,y)
+\end{align*}
+f continua $\forall (t_0, y_0)\in A$, e inoltre $\exists \frac{\delta f}{\delta y}$ continua in $(t,y)\in A$ \\ \\
+allora $\forall(t_0, y_0)\in A \quad \exists \delta >0$ tale che $[t_0 - \delta, t_0 + \delta]\in]a,b[$ \\ \\
+e il problema di Cauchy ammette un'unica soluzione $y=y(t)$
+$$ y(t) = [t_0-\delta, t_0+\delta] \quad \rightarrow \quad \Re $$
+
+\subsection{Estensione della soluzione}
+Supponiamo inoltre (oltre alle condizioni di esistenza) che esistano $K_1, K_2 >0$ tali che:
+$$ \mid f(t,y) \mid \leq K_1 + K_2\mid y \mid \qquad \forall t \in ]a,b[, \forall y \in \Re$$
+allora la soluzione del problema di Cauchy $\forall (t_0, y_0) \in A$ \'e definita su tutto [a,b].
+
+\section{Equazioni differenziali di ordine n}
+$y^{(n)} + a_1(t)y^{(n-1)} + ... + a_{n-1}(t)y' + a_n(t)y \quad = \quad f(t) \qquad t \in I$ \\ \\
+$a_i(t), f(t) \in C^0(I) $ 
+
+\subsection{Esistenza della soluzione}
+$a_i, f \in C^0(I) \quad \forall i = 1,2,...,n$ \\ \\
+allora $\forall(t_0, y_0, ..., y_{n-1})\in I \times R^n$ \\ \\
+$ \exists ! $ soluzione $y(t)$ definita su I, $y\in C^n(I)$
+
+\subsection{Operatore differenziale}
+$$ L(t)y = y^{(n)} + a_1y^{(n-1)} + ... + a_ny $$
+\begin{align*}
+L(t)\quad : \quad y \quad &\rightarrow \quad L(t)y \\
+C^{n}(I) \quad &\rightarrow \quad C^0(y)
+\end{align*}
+$L(t)y$ : Operatore differenziale di ordine n \\ 
+\\
+$L(t)$ \'e un operatore lineare \\
+$L(t)(\lambda y_1 + \mu y_2) = \lambda \cdot L(t)(y_1) + \mu \cdot L(t)(y_2) $ \\ 
+
+\subsection{Soluzioni}
+a partire da $L(t)y = t$ $\quad \longrightarrow \quad$ \emph{equazione Non Omogenea (NO)} \\
+associo la $L(t)y = 0$ $\quad \longrightarrow \quad$\emph{equazione Omogenea (O)} \\
+\\
+se $y_1$ \'e soluzione della NO \\
+e $y_0$ \'e soluzione della O \\
+allora $y_1+y_0$ \'e soluzione della NO.\\
+\\
+se $y_1$ e $y_2$ sono soluzioni della NO \\
+allora $y_1-y_2$ \'e soluzione della O.\\
+\\
+L'insieme S delle soluzioni di O \'e uno spazio vettoriale\\
+La dimensione di E \'e dunque uguale a n.
+
+\subsection{Determinante Wronskiano}
+Esempio per $n=3$, con funzioni $y_1,y_2,y_3$
+\begin{equation*}
+{\bf T} = 
+\begin{vmatrix}
+
+y_1(t) & y_2(t) & y_3(t) \\
+y'_1(t) & y'_2(t) & y'_3(t) \\
+y''_1(t) & y''_2(t) & y''_3(t) \\
+
+\end{vmatrix}
+\end{equation*}
+Le funzioni $y_1(t)$, $y_2(t)$, $y_3(t)$ sono \emph{linearmente indipendenti} in I $\quad \Leftrightarrow \quad W(t) = 0 \quad \forall t \in I$ 
+
+
+
+
+%fine documento
+\end{document}
